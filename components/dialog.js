@@ -4,20 +4,21 @@
 *des:弹窗模块
 */
 define(function(require){
+	//利用闭包特性判断是否已经存在实例
 	var instance;
 	function Dialog(config){
-		this.title = config.title ? config.title : "提示";
-		this.content = config.content ? content.content : "这里是类容";
-		this.html = '<div class="dialog-dropback">' +
-            '<div class="container">' +
-                '<div class="head">'+ this.title +'</div>' +
-                '<div class="content">'+ this.content +'</div>' +
-                '<div class="footer">' +
-                    '<button class="cancel">取消</button>' +
-                    '<button class="confirm">确认</button>' +
-                '</div>' +
-            '</div>' +
-        '</div>'
+		this.title = config.title ? config.title : '提示';
+		this.content = config.content ? config.content : '这是内容';
+		this.html = '<div class="dialog-dropback">'+
+						'<div class="container">'+
+							'<div class="head">'+this.title+'</div>'+
+							'<div class="content">'+this.content+'</div>'+
+							'<div class="footer">'+
+								'<button class="cancel">取消</button>'+
+								'<button class="confirm">确认</button>'+
+							'</div>'+
+						'</div>'+
+					'</div>'
 	}
 	Dialog.prototype = {
 		constructor:Dialog,
@@ -28,26 +29,44 @@ define(function(require){
 			}
 			$(this.html).appendTo($(document.body));
 			instance = this;
-
 			return new Promise(function(resolve,reject){
 				$('.dialog-dropback .cancel').on('click',function(e){
 					_this.hide();
-					resolve(e);
+					console.log(e);
+					reject(e);
 				})
 				$('.dialog-dropback .confirm').on('click',function(e){
 					_this.hide();
-					reject(e);
+					console.log(e);
+					resolve(e);
 				})
 			})
+
+
 		},
-        destory: function() {
-            instance = null;
-            $('.dialog-dropback .cancel').off('click');
-            $('.dialog-dropback .confirm').off('click');
-            $('.dialog-dropback').remove();
-        },
-        hide: function() {
-            this.destory();
-        }
+		destory:function(){
+			instance = null;
+			$('.dialog-dropback .cancel').off('click');
+			$('.dialog-dropback .confirm').off('click');
+			$('.dialog-dropback').remove();
+		},
+		hide:function(){
+			this.destory();
+		}
 	}
+	return function(config) {
+        return new Dialog(config);
+    }
 })
+
+//         destory: function() {
+//             instance = null;
+//             $('.dialog-dropback .cancel').off('click');
+//             $('.dialog-dropback .confirm').off('click');
+//             $('.dialog-dropback').remove();
+//         },
+//         hide: function() {
+//             this.destory();
+//         }
+// 	}
+// })

@@ -15,6 +15,11 @@ requirejs.config({
 	}
 })
 define(function(require){
-	require('jquery');
-	require('calendar');
+    var $ = require('jquery');
+    require('dialog');
+	require('./components/button');
+    require('calendar');
+    var imageCenter = require('imageCenter');
+    var imageWrapList = document.querySelectorAll('.img-center');
+    imageCenter(imageWrapList,'wspectFill')
 })
